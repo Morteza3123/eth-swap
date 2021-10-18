@@ -1,25 +1,36 @@
-import logo from './logo.svg';
+import react, { component } from 'react';
+import { Component } from 'react';
+
 import './App.css';
 
-function App() {
+
+
+class App extends Component {
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+    <div>
+      <nav className="navbar navbar-dark fixed-top bg-dark fix-md-norap p-0 shadow">
         <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        className='navbar-brand col-sm3 col-md-2 mr-0'
+        href='http://localhost:3000/'
         >
-          Learn React
+          ETH-SWAP
         </a>
-      </header>
+      </nav>
+    <div className="container fluid mt-5">
+      <div className='row'>
+        <main role='main' className='col-lg-12 d-flex text-center'>
+          <div className='content mr-auto ml-auto'>
+
+              <h1 class>Hello World</h1>
+          </div>
+        </main>
+      </div>
+      
+    </div>
     </div>
   );
+}
 }
 
 export default App;
