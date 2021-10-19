@@ -1,11 +1,18 @@
 import react, { component } from 'react';
+import Web3 from 'web3';
 import { Component } from 'react';
+
 
 import './App.css';
 
 
 
 class App extends Component {
+
+  loadWeb3(){
+    
+  }
+
   render(){
   return (
     <div>
