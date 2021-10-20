@@ -19,7 +19,11 @@ class App extends React.Component {
 
     const accounts = await web3.eth.getAccounts();
     this.setState({ account : accounts[0]})
-    console.log(accounts[0]);
+    console.log(this.state.account);
+
+    const ethBalance = await web3.eth.getBalance(this.state.account);
+    this.setState({ethBalance });
+    console.log(this.state.ethBalance);
   }
 
 
@@ -39,7 +43,8 @@ class App extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-        account:''
+        account:'',
+        ethBalance: '0'
       }
     }
   render(){
