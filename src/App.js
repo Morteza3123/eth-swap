@@ -1,13 +1,13 @@
 import React, { component } from 'react';
 import Web3 from 'web3';
 import { Component } from 'react';
-
-
+import Navbar from './components/Navbar';
 import './App.css';
+import EthSwap from '../build/contracts/EthSwap.json';
+import Token from '../build/contracts/Token.json';
 
 
-
-class App extends React.Component {
+class App extends Component {
 
   async componentWillMount(){
     await this.loadWeb3()
@@ -23,7 +23,13 @@ class App extends React.Component {
 
     const ethBalance = await web3.eth.getBalance(this.state.account);
     this.setState({ethBalance });
-    console.log(this.state.ethBalance);
+
+    const abi = Token.abi;
+    const address= Token.networks['5777'].address;
+    const token = new web3.eth.Contract(abi, address);
+    console.log(token)
+
+
   }
 
 
@@ -50,14 +56,7 @@ class App extends React.Component {
   render(){
   return (
     <div>
-      <nav className="navbar navbar-dark fixed-top bg-dark fix-md-norap p-0 shadow">
-        <a
-        className='navbar-brand col-sm3 col-md-2 mr-0'
-        href='http://localhost:3000/'
-        >
-          ETH-SWAP
-        </a>
-      </nav>
+      <Navbar account={this.state.account} />
     <div className="container fluid mt-5">
       <div className='row'>
         <main role='main' className='col-lg-12 d-flex text-center'>
