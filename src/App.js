@@ -2,7 +2,8 @@ import React, { component } from 'react';
 import Web3 from 'web3';
 import { Component } from 'react';
 import Navbar from './components/Navbar';
-import './App.css';
+import Main from './Main';
+// import './App.css';
 import EthSwap from './contract/EthSwap.json';
 import Token from './contract/Token.json';
 
@@ -46,7 +47,7 @@ class App extends Component {
     }else{
       window.alert('Token contract not deployed to detected network')
     }
-    console.log(this.state.ethSwap)
+    this.setState({ loading : false })
   }
 
 
@@ -70,25 +71,34 @@ class App extends Component {
         token: {},
         ethSwap: {},
         ethBalance: '0',
-        tokenBalance: '0'
+        tokenBalance: '0',
+        loading: true
       }
     }
   render(){
+    let content
+    
+    if(this.state.loading) {
+      content = <p id="leader" className="text-center">Loading ...</p>
+    } else {
+      content = <Main />
+    }
   return (
     <div>
       <Navbar account={this.state.account} />
     <div className="container fluid mt-5">
       <div className='row'>
+      
         <main role='main' className='col-lg-12 d-flex text-center'>
           <div className='content mr-auto ml-auto'>
 
-              <h1 >Hello World</h1>
+              {content}
           </div>
         </main>
       </div>
-      
+      </div>
     </div>
-    </div>
+  
   );
 }
 }
