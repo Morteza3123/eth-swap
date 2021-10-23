@@ -3,8 +3,8 @@ import Web3 from 'web3';
 import { Component } from 'react';
 import Navbar from './components/Navbar';
 import './App.css';
-import EthSwap from '../build/contracts/EthSwap.json';
-import Token from '../build/contracts/Token.json';
+import EthSwap from './contract/EthSwap.json';
+import Token from './contract/Token.json';
 
 
 class App extends Component {
@@ -24,12 +24,29 @@ class App extends Component {
     const ethBalance = await web3.eth.getBalance(this.state.account);
     this.setState({ethBalance });
 
-    const abi = Token.abi;
-    const address= Token.networks['5777'].address;
-    const token = new web3.eth.Contract(abi, address);
-    console.log(token)
-
-
+    //load Token
+    const networkId = await web3.eth.net.getId()
+    const tokenData = Token.networks[networkId]
+    if(tokenData){
+      const token = new web3.eth.Contract(Token.abi, tokenData.address);
+      this.setState({token})
+      let tokenBalance = await token.methods.balanceOf(this.state.account).call()
+      console.log("token balance", tokenBalance.toString())
+      this.setState({tokenBalance: tokenBalance.toString()})
+    }else{
+      window.alert('Token contract not deployed to detected network')
+    }
+    
+    //load EthSwap
+    const ethSwapData = EthSwap.networks[networkId]
+    if(ethSwapData){
+      const ethSwap = new web3.eth.Contract(EthSwap.abi, ethSwapData.address);
+      this.setState({ethSwap})
+      
+    }else{
+      window.alert('Token contract not deployed to detected network')
+    }
+    console.log(this.state.ethSwap)
   }
 
 
@@ -50,7 +67,10 @@ class App extends Component {
       super(props)
       this.state = {
         account:'',
-        ethBalance: '0'
+        token: {},
+        ethSwap: {},
+        ethBalance: '0',
+        tokenBalance: '0'
       }
     }
   render(){
