@@ -27,6 +27,9 @@ class Main extends Component {
                     <div className="input-group mb-4">
                         <input
                            type="text"
+                           onChange={(event) => {
+                               console.log("chainging...")
+                           }}
                            className="form-control form-control-lg"
                            placeholder="0"
                            required />
@@ -52,9 +55,6 @@ class Main extends Component {
                     <div className="input-group mb2">
                         <input
                             type="text"
-                            onChange={(event) => {
-                                console.log("changing...")
-                            }}
                             className="form-control form-control-lg"
                             placeholder="0"
                             disabled
