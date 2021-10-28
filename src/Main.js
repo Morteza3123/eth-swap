@@ -5,6 +5,12 @@ import './ui.css';
 
 
 class Main extends Component {
+    constructor(props){
+        super(props)
+        this.state ={
+            output : '0'
+        }
+    }
 
 
   render(){
@@ -28,8 +34,12 @@ class Main extends Component {
                         <input
                            type="text"
                            onChange={(event) => {
-                               console.log("chainging...")
+                               const etherAmount = this.input.value.toString()
+                               this.setState({
+                                   output : etherAmount*100
+                               })
                            }}
+                           ref={(input) => { this.input = input}}
                            className="form-control form-control-lg"
                            placeholder="0"
                            required />
@@ -57,6 +67,7 @@ class Main extends Component {
                             type="text"
                             className="form-control form-control-lg"
                             placeholder="0"
+                            value={this.state.output}
                             disabled
                         />
                         <div className="input-group-append">
