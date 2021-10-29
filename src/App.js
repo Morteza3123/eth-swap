@@ -1,4 +1,4 @@
-import React, { component } from 'react';
+
 import Web3 from 'web3';
 import { Component } from 'react';
 import Navbar from './components/Navbar';
@@ -20,7 +20,7 @@ class App extends Component {
 
     const accounts = await web3.eth.getAccounts();
     this.setState({ account : accounts[0]})
-    console.log(this.state.account);
+    
 
     const ethBalance = await web3.eth.getBalance(this.state.account);
     this.setState({ethBalance });
@@ -32,7 +32,8 @@ class App extends Component {
       const token = new web3.eth.Contract(Token.abi, tokenData.address);
       this.setState({token})
       let tokenBalance = await token.methods.balanceOf(this.state.account).call()
-      console.log("token balance", tokenBalance.toString())
+      let contractBalance = await token.methods.balanceOf(tokenData.address).call()
+      console.log("token balance", contractBalance.toString())
       this.setState({tokenBalance: tokenBalance.toString()})
     }else{
       window.alert('Token contract not deployed to detected network')
@@ -64,6 +65,15 @@ class App extends Component {
     }
   }
 
+  buyTokens = async (etherAmount) => {
+    this.setState({ loading: true})
+    await this.state.ethSwap.methods.buyTokens().send({ value: etherAmount, from: this.state.account}).on('transactionHash', (hash) => {
+      this.setState({ loading : false})
+    })
+  }
+
+  
+
     constructor(props) {
       super(props)
       this.state = {
@@ -76,6 +86,7 @@ class App extends Component {
       }
     }
   render(){
+    
     let content
     
     if(this.state.loading) {
@@ -83,7 +94,8 @@ class App extends Component {
     } else {
       content = <Main 
       ethBalance={this.state.ethBalance}  
-      tokenBalance={this.state.tokenBalance} 
+      tokenBalance={this.state.tokenBalance}
+      buyTokens={this.buyTokens} 
       />
     }
   return (

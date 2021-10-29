@@ -27,7 +27,7 @@ contract EthSwap {
 
 
     function buyTokens() public payable{
-        uint tokenAmount = msg.value * rate;
+        uint tokenAmount = (msg.value * rate);
 
         require(token.balanceOf(address(this)) >= tokenAmount);
         token.transfer(msg.sender, tokenAmount);
