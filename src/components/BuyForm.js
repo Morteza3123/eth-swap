@@ -25,7 +25,7 @@ class BuyForm extends Component {
         <div>
             <label className="float-start"><b>Input</b></label>
             <label className="float-end" >
-            Balance : {window.web3.utils.fromWei(this.props.ethBalance, 'Ether')}
+             Balance : {window.web3.utils.fromWei(this.props.ethBalance, 'Ether')}
             </label>
         
         </div>
@@ -33,16 +33,16 @@ class BuyForm extends Component {
             <input
                 type="text"
                 onChange={(event) => {
-                    const etherAmount = this.input.value.toString()
-                    this.setState({
-                        output : etherAmount*100
-                    })
+                const etherAmount = this.input.value.toString()
+                this.setState({
+                output : etherAmount*100
+                })
                 }}
                 ref={(input) => { this.input = input}}
                 className="form-control form-control-lg"
                 placeholder="0"
                 required />
-                <div className="input-group-append">
+            <div className="input-group-append">
                     <div className="input-group-text">
                         <img src={ethLogo} height='32' alt=""/>
                         &nbsp;&nbsp;&nbsp; ETH
