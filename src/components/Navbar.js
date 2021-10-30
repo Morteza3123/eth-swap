@@ -14,7 +14,7 @@ class Navbar extends Component {
         className='navbar-brand col-sm3 col-md-2 mr-0'
         href='http://localhost:3000/'
         >
-          EthSwap
+          صرافی امین
         </a>
         <ul className="navbar-nav px-3">
               <li className="nav-item">

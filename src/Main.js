@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BuyForm from './components/BuyForm';
-import SellForm from './components/SellForm';
+import SellForm from './components/SellForm'
 
 
 class Main extends Component {
@@ -21,7 +21,11 @@ class Main extends Component {
           buyTokens={this.props.buyTokens}
           />
       } else{
-          content = <SellForm />
+          content = <SellForm
+            ethBalance={this.props.ethBalance}
+            tokenBalance={this.props.tokenBalance}
+            sellTokens={this.props.sellTokens}
+          />
       }
   return (
     <div id = 'content' className="mt-3">

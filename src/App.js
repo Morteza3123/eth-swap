@@ -13,10 +13,13 @@ class App extends Component {
   async componentWillMount(){
     await this.loadWeb3()
     await this.loadBlockchainData()
+    console.log(this.state.ethSwap)
   }
 
   async loadBlockchainData() {
     const web3 = window.web3;
+
+    
 
     const accounts = await web3.eth.getAccounts();
     this.setState({ account : accounts[0]})
@@ -31,6 +34,7 @@ class App extends Component {
     if(tokenData){
       const token = new web3.eth.Contract(Token.abi, tokenData.address);
       this.setState({token})
+      this.setState({ tokenAddress : tokenData.address})
       let tokenBalance = await token.methods.balanceOf(this.state.account).call()
       let contractBalance = await token.methods.balanceOf(tokenData.address).call()
       console.log("token balance", contractBalance.toString())
@@ -44,6 +48,7 @@ class App extends Component {
     if(ethSwapData){
       const ethSwap = new web3.eth.Contract(EthSwap.abi, ethSwapData.address);
       this.setState({ethSwap})
+      this.setState({ ethSwapAddress : ethSwapData.address})
       
     }else{
       window.alert('Token contract not deployed to detected network')
@@ -63,12 +68,22 @@ class App extends Component {
         "Non-Ethereum browser detected. You should consider trying MetaMask!"
       );
     }
+    
   }
 
   buyTokens = async (etherAmount) => {
     this.setState({ loading: true})
     await this.state.ethSwap.methods.buyTokens().send({ value: etherAmount, from: this.state.account}).on('transactionHash', (hash) => {
       this.setState({ loading : false})
+    })
+  }
+
+  sellTokens = async (tokenAmount) => {
+    this.setState({ loading: true})
+     await this.state.token.methods.approve(this.state.ethSwapAddress, tokenAmount).send({from: this.state.account}).on('transactionHash', (hash) => {
+      this.state.ethSwap.methods.sellToken(tokenAmount).send({from: this.state.account}).on('transactionHash', (hash) => {
+      this.setState({ loading : false})
+      })
     })
   }
 
@@ -82,8 +97,11 @@ class App extends Component {
         ethSwap: {},
         ethBalance: '0',
         tokenBalance: '0',
+        tokenAddress:'',
+        ethSwapAddress:'',
         loading: true
       }
+      
     }
   render(){
     
@@ -96,6 +114,7 @@ class App extends Component {
       ethBalance={this.state.ethBalance}  
       tokenBalance={this.state.tokenBalance}
       buyTokens={this.buyTokens} 
+      sellTokens={this.sellTokens}
       />
     }
   return (
@@ -111,6 +130,23 @@ class App extends Component {
           </div>
         </main>
       </div>
+      <button
+        onClick= {(event) => {
+          
+            //  this.state.token.methods.approve("0xc1A5C8BA5f43AA5fEbD0fEaD0994596630C1150f", 100).send({from: this.state.account})
+            //   this.state.ethSwap.methods.sellToken(100).send({from: this.state.account})
+            let tokenAmount = 100
+            tokenAmount = tokenAmount.toString()
+            let tokenAmount2 =  window.web3.utils.toWei(tokenAmount, 'Ether')
+              this.sellTokens(tokenAmount2)
+              }
+            
+          
+          
+        }
+        
+        
+        >bbbbb</button>
       </div>
     </div>
   
