@@ -3,7 +3,6 @@ import Web3 from 'web3';
 import { Component } from 'react';
 import Navbar from './components/Navbar';
 import Main from './Main';
-// import './App.css';
 import EthSwap from './contract/EthSwap.json';
 import Token from './contract/Token.json';
 
@@ -56,7 +55,7 @@ class App extends Component {
     this.setState({ loading : false })
   }
 
-
+  //load web3
   async loadWeb3(){
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
@@ -71,6 +70,7 @@ class App extends Component {
     
   }
 
+  //buy tokens function
   buyTokens = async (etherAmount) => {
     this.setState({ loading: true})
     await this.state.ethSwap.methods.buyTokens().send({ value: etherAmount, from: this.state.account}).on('transactionHash', (hash) => {
@@ -78,6 +78,7 @@ class App extends Component {
     })
   }
 
+  //sell tokens function
   sellTokens = async (tokenAmount) => {
     this.setState({ loading: true})
      await this.state.token.methods.approve(this.state.ethSwapAddress, tokenAmount).send({from: this.state.account}).on('transactionHash', (hash) => {
@@ -130,23 +131,6 @@ class App extends Component {
           </div>
         </main>
       </div>
-      <button
-        onClick= {(event) => {
-          
-            //  this.state.token.methods.approve("0xc1A5C8BA5f43AA5fEbD0fEaD0994596630C1150f", 100).send({from: this.state.account})
-            //   this.state.ethSwap.methods.sellToken(100).send({from: this.state.account})
-            let tokenAmount = 100
-            tokenAmount = tokenAmount.toString()
-            let tokenAmount2 =  window.web3.utils.toWei(tokenAmount, 'Ether')
-              this.sellTokens(tokenAmount2)
-              }
-            
-          
-          
-        }
-        
-        
-        >bbbbb</button>
       </div>
     </div>
   
